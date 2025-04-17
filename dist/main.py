@@ -4,48 +4,6 @@ import random
 import requests
 import os
 
-# ----------- SYSTEME DE MISE À JOUR -----------
-VERSION_URL = "https://raw.githubusercontent.com/TON_NOM/monjeu-update/main/version.txt"
-EXE_URL = "https://TONSITE.com/monjeu.exe"  # Change avec ton vrai lien
-CURRENT_VERSION = "1.0"
-EXE_NAME = "jeux.exe"
-
-def check_update():
-    try:
-        response = requests.get(VERSION_URL)
-        latest_version = response.text.strip()
-        if latest_version != CURRENT_VERSION:
-            print(f"Nouvelle version {latest_version} disponible ! Téléchargement en cours...")
-            download_update()
-            os.startfile(EXE_NAME)  # Relance la nouvelle version
-            exit()
-        else:
-            print("Jeu à jour.")
-    except Exception as e:
-        print("Erreur de mise à jour :", e)
-
-def download_update():
-    response = requests.get(EXE_URL, stream=True)
-    total_length = response.headers.get('content-length')
-
-    if total_length is None:
-        with open(EXE_NAME, "wb") as f:
-            f.write(response.content)
-    else:
-        dl = 0
-        total_length = int(total_length)
-        with open(EXE_NAME, "wb") as f:
-            for data in response.iter_content(chunk_size=4096):
-                dl += len(data)
-                f.write(data)
-                done = int(50 * dl / total_length)
-                print("\r[{}{}]".format('=' * done, ' ' * (50-done)), end='')
-
-# Vérification au lancement
-check_update()
-
-# ----------- TON JEU COMMENCE ICI -----------
-
 # Obtenir le chemin du répertoire du script
 BASE_DIR = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
 
@@ -63,7 +21,7 @@ pygame.init()
 # Constantes
 tile_size = 40  # Taille des cases
 cols, rows = 10, 10  # Nombre de colonnes et lignes
-width, height = 400, 400  # Taille de la fenêtre (400x400 pixels)
+width, height = 700, 700  # Taille de la fenêtre (400x400 pixels)
 
 # Couleurs
 WHITE = (255, 255, 255)
